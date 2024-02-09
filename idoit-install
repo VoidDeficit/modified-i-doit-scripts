@@ -1285,7 +1285,7 @@ function configurePHPFPM {
     log "Configure PHP-FPM"
 
     case "$OS" in
-        "debian10"|"debian11"|"ubuntu1804"|"ubuntu2004"|"ubuntu2204")
+        "debian10"|"debian11"|"debian12"|"ubuntu1804"|"ubuntu2004"|"ubuntu2204")
             unitctl "restart" "$PHP_FPM_UNIT"
             ;;
         "rhel7"|"rhel8"|"centos7"|"centos8")
@@ -1458,7 +1458,7 @@ EOF
 
             unitctl "restart" "$APACHE_UNIT"
             ;;
-        "debian11"|"debian10"|"ubuntu1604"|"ubuntu1804"|"ubuntu2004"|"ubuntu2204")
+        "debian12"|"debian11"|"debian10"|"ubuntu1604"|"ubuntu1804"|"ubuntu2004"|"ubuntu2204")
             a2_en_site=$(command -v a2ensite)
             a2_dis_site=$(command -v a2dissite)
             a2_en_mod=$(command -v a2enmod)
