@@ -1656,7 +1656,7 @@ EOF
 function secureMariaDB {
     local mariadb_version=""
 
-    mariadb_version=$(mysql --version | head -n1 -c28 | tail -c 4)
+    mariadb_version=$(mysql --version | head -n1 -c29 | tail -c 5)
 
     echo -n -e \
         "Please enter a new password for MariaDB's super user '${MARIADB_SUPERUSER_USERNAME}' [leave empty for '${MARIADB_SUPERUSER_PASSWORD}']: "
@@ -1669,7 +1669,7 @@ function secureMariaDB {
 
     log "Set $MARIADB_SUPERUSER_USERNAME password and plugin 'mysql_native_password'"
     case "$mariadb_version" in
-        "10.4"|"10.5"|"10.6")
+        "10.4"|"10.5"|"10.6"|"10.11")
             "$MARIADB_BIN" \
             -h"$MARIADB_HOSTNAME" \
             -u"$MARIADB_SUPERUSER_USERNAME" \
@@ -1728,7 +1728,7 @@ function secureMariaDB {
                 abort "SQL statement failed"
             ;;
 
-        "sles15"|"opensuse15"|"debian10"|"debian11"|"ubuntu1804"|"ubuntu2004"|"ubuntu2204")
+        "sles15"|"opensuse15"|"debian10"|"debian11"|"debian12"|"ubuntu1804"|"ubuntu2004"|"ubuntu2204")
             log "Allow $MARIADB_SUPERUSER_USERNAME login only from localhost"
             "$MARIADB_BIN" \
                 -h"$MARIADB_HOSTNAME" \
