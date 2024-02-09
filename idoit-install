@@ -294,6 +294,21 @@ function identifyOS {
         MARIADB_UNIT="mariadb"
         MEMCACHED_UNIT="memcached"
         PHP_FPM_UNIT="php-fpm"
+    elif [[ "$NAME" == "Debian GNU/Linux" && "$VERSION" == "12 (bookworm)" ]]; then
+            export DEBIAN_FRONTEND="noninteractive"
+
+            OS="debian12"
+            APACHE_USER="www-data"
+            APACHE_GROUP="www-data"
+            APACHE_CONFIG_FILE="/etc/apache2/sites-available/i-doit.conf"
+            MARIADB_CONFIG_FILE="/etc/mysql/mariadb.conf.d/99-i-doit.cnf"
+            PHP_CONFIG_FILE="/etc/php/8.2/mods-available/i-doit.ini"
+            MARIADB_SOCKET="/var/run/mysqld/mysqld.sock"
+            PHP_FPM_SOCKET="/var/run/php/php8.2-fpm.sock"
+            APACHE_UNIT="apache2"
+            MARIADB_UNIT="mysql"
+            MEMCACHED_UNIT="memcached"
+            PHP_FPM_UNIT="php8.2-fpm"
     elif [[ "$NAME" == "Debian GNU/Linux" && "$VERSION" == "11 (bullseye)" ]]; then
             export DEBIAN_FRONTEND="noninteractive"
 
@@ -563,6 +578,9 @@ function checkSoftwareRequirements {
 
 function configureOS {
     case "$OS" in
+        "debian12")
+            configureDebian12
+            ;;
         "debian11")
             configureDebian11
             ;;
@@ -599,6 +617,24 @@ function configureOS {
         *)
             abort "Unkown operating system '${OS}'!?!"
     esac
+}
+
+function configureDebian12 {
+    log "Keep your Debian packages up-to-date"
+    apt-get -qq --yes update || abort "Unable to update Debian package repositories"
+    apt-get -qq --yes full-upgrade || abort "Unable to perform update of Debian packages"
+    apt-get -qq --yes clean || abort "Unable to cleanup Debian packages"
+    apt-get -qq --yes autoremove || abort "Unable to remove unnecessary Debian packages"
+
+    log "Install required Debian packages"
+    apt-get -qq --yes install --no-install-recommends \
+        apache2 libapache2-mod-fcgid \
+        mariadb-client mariadb-server \
+        php8.2-bcmath php8.2-cli php8.2-common php8.2-curl php8.2-fpm php8.2-gd php8.2-json \
+        php8.2-ldap php8.2-mbstring php8.2-mysql php8.2-opcache php8.2-pgsql \
+        php8.2-soap php8.2-xml php8.2-zip \
+        php-memcached \
+        memcached unzip sudo moreutils || abort "Unable to install required Debian packages"
 }
 
 function configureDebian11 {
