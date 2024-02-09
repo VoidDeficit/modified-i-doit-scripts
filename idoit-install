@@ -52,7 +52,7 @@ IFS=$'\n\t'
 : "${JOBS_BIN:="/usr/local/bin/idoit-jobs"}"
 : "${CRON_FILE:="/etc/cron.d/i-doit"}"
 : "${BACKUP_DIR:="/var/backups/i-doit"}"
-: "${RECOMMENDED_PHP_VERSION:="8.4"}"
+: "${RECOMMENDED_PHP_VERSION:="8.2"}"
 : "${RECOMMENDED_MARIADB_VERSION:="10.11"}"
 
 ##
