@@ -630,7 +630,7 @@ function configureDebian12 {
     apt-get -qq --yes install --no-install-recommends \
         apache2 libapache2-mod-fcgid \
         mariadb-client mariadb-server \
-        php8.2-bcmath php8.2-cli php8.2-common php8.2-curl php8.2-fpm php8.2-gd php8.2-json \
+        php8.2-bcmath php8.2-cli php8.2-common php8.2-curl php8.2-fpm php8.2-gd php-json \
         php8.2-ldap php8.2-mbstring php8.2-mysql php8.2-opcache php8.2-pgsql \
         php8.2-soap php8.2-xml php8.2-zip \
         php-memcached \
